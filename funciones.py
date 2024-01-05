@@ -89,23 +89,21 @@ def buscarUsuarios(driver,usuariosABuscar):
     # Crear un DataFrame
     data = {'fecha':fechas,'Usuario':usuarios, 'cant_seguidores': cantidadSeguidores, 'cant_seguidos': cantidadSeguidos, 'cant_posteos': cantidadPosteos}
     # vamos a la ruta que queremos 
-    nombre_carpeta = "warbuef001\schain-danone\\1. BI\\Analytics\\webScrapper\\WebScraperDanone\\Instagram\\EtiquetasUsuarios"
-    generarDF(data,'etiquetasDeLosUsuarios.xlsx',nombre_carpeta)
+    nombre_carpeta = "C:\\Users\\Olaf\\Desktop\\Trabajo\\Scrapper-Etiquetas-IG\\Instagram"
+    
+    fecha_actual = datetime.now().strftime('%Y-%m-%d')
+    generarDF(data,fecha_actual+' etiquetasDeLosUsuarios.xlsx',nombre_carpeta) 
 
-def generarDF(data,nombreArchivo,nombre_carpeta):
+def generarDF(data, nombreArchivo, nombre_carpeta):
+    # Crear un DataFrame a partir de los datos
     df = pd.DataFrame(data)
-    ruta_actual = os.getcwd()
-    ruta_a_crear_el_excel = os.path.join(ruta_actual, nombre_carpeta)
-    with pd.ExcelWriter(ruta_a_crear_el_excel, engine='openpyxl', mode='a') as writer:
-    # Si el archivo no existe, lo creamos y escribimos el DataFrame
-        if not os.path.isfile(ruta_a_crear_el_excel):
-            df = pd.DataFrame(data)
-            df.to_excel(writer, index=False)
-        else:
-            # Si el archivo ya existe, simplemente escribimos el DataFrame al final
-            df = pd.DataFrame(data)
-            df.to_excel(writer, index=False, header=False)
-#DONE
+
+    # Crear la ruta completa del archivo
+    ruta_archivo = os.path.join(nombre_carpeta, nombreArchivo)
+
+    # Guardar el DataFrame como un archivo Excel
+    df.to_excel(ruta_archivo, index=False)
+
 def obtener_cantidad_de_Etiquetas(driver):
     time.sleep(5)
     # toma una lista de la cantida de publicaciones, seguidres y seguidos
